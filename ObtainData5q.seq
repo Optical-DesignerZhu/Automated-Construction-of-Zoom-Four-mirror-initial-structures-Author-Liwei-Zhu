@@ -1,0 +1,73 @@
+!***************************************************
+!***************************************************
+!*****Description : Optimization for obtain the  point data 
+!*****Author : Liwei Zhu
+!*****Date : April 5,2025
+
+!note : Comment out the code (shortcut key): CTR+/
+!**********************Default***********************
+! ^PI == 4*ATANF(1)
+! ^RAD == 180/^PI
+! ^pol_input(1,1) == 0
+
+
+num ^P_S(48,1) 
+
+
+^P_S(1,1) == (Y R2 S1 W1 G1 F1 Z1)
+^P_S(2,1) == (Y R2 S1 W1 G1 F3 Z1)
+^P_S(3,1) == (Y R3 S1 W1 G1 F1 Z1)
+^P_S(4,1) == (Y R3 S1 W1 G1 F3 Z1)
+^P_S(5,1) == (Z R2 S1 W1 G1 F1 Z1)
+^P_S(6,1) == (Z R2 S1 W1 G1 F3 Z1)
+^P_S(7,1) == (Z R3 S1 W1 G1 F1 Z1)
+^P_S(8,1) == (Z R3 S1 W1 G1 F3 Z1)
+
+^P_S(9,1)  == (Y R2 S2 W1 G1 F1 Z1)
+^P_S(10,1) == (Y R2 S2 W1 G1 F3 Z1)
+^P_S(11,1) == (Y R3 S2 W1 G1 F1 Z1)
+^P_S(12,1) == (Y R3 S2 W1 G1 F3 Z1)
+^P_S(13,1) == (Z R2 S2 W1 G1 F1 Z1)
+^P_S(14,1) == (Z R2 S2 W1 G1 F3 Z1)
+^P_S(15,1) == (Z R3 S2 W1 G1 F1 Z1)
+^P_S(16,1) == (Z R3 S2 W1 G1 F3 Z1)
+
+^P_S(17,1) == (Y R2 S3 W1 G1 F1 Z1)
+^P_S(18,1) == (Y R2 S3 W1 G1 F3 Z1)
+^P_S(19,1) == (Y R3 S3 W1 G1 F1 Z1)
+^P_S(20,1) == (Y R3 S3 W1 G1 F3 Z1)
+^P_S(21,1) == (Z R2 S3 W1 G1 F1 Z1)
+^P_S(22,1) == (Z R2 S3 W1 G1 F3 Z1)
+^P_S(23,1) == (Z R3 S3 W1 G1 F1 Z1)
+^P_S(24,1) == (Z R3 S3 W1 G1 F3 Z1)
+
+^P_S(25,1) == (Y R2 S4 W1 G1 F1 Z1)
+^P_S(26,1) == (Y R2 S4 W1 G1 F3 Z1)
+^P_S(27,1) == (Y R3 S4 W1 G1 F1 Z1)
+^P_S(28,1) == (Y R3 S4 W1 G1 F3 Z1)
+^P_S(29,1) == (Z R2 S4 W1 G1 F1 Z1)
+^P_S(30,1) == (Z R2 S4 W1 G1 F3 Z1)
+^P_S(31,1) == (Z R3 S4 W1 G1 F1 Z1)
+^P_S(32,1) == (Z R3 S4 W1 G1 F3 Z1)
+
+^P_S(33,1) == (Y R2 S5 W1 G1 F1 Z1)
+^P_S(34,1) == (Y R2 S5 W1 G1 F3 Z1)
+^P_S(35,1) == (Y R3 S5 W1 G1 F1 Z1)
+^P_S(36,1) == (Y R3 S5 W1 G1 F3 Z1)
+^P_S(37,1) == (Z R2 S5 W1 G1 F1 Z1)
+^P_S(38,1) == (Z R2 S5 W1 G1 F3 Z1)
+^P_S(39,1) == (Z R3 S5 W1 G1 F1 Z1)
+^P_S(40,1) == (Z R3 S5 W1 G1 F3 Z1)
+
+^P_S(41,1) == (Y R2 S6 W1 G1 F1 Z1)
+^P_S(42,1) == (Y R2 S6 W1 G1 F3 Z1)
+^P_S(43,1) == (Y R3 S6 W1 G1 F1 Z1)
+^P_S(44,1) == (Y R3 S6 W1 G1 F3 Z1)
+^P_S(45,1) == (Z R2 S6 W1 G1 F1 Z1)
+^P_S(46,1) == (Z R2 S6 W1 G1 F3 Z1)
+^P_S(47,1) == (Z R3 S6 W1 G1 F1 Z1)
+^P_S(48,1) == (Z R3 S6 W1 G1 F3 Z1)
+
+^Point_data == ARRAY_TO_BUFFER(^P_S,1,0)
+buf exp b1 P_S
+buf del b1

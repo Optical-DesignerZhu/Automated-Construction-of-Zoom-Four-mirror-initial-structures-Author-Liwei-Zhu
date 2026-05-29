@@ -1,0 +1,33 @@
+!***************************************************
+!***************************************************
+!*****Description : Optimization for obtain the  point data 
+!*****Author : Liwei Zhu
+!*****Date : April 5,2025
+
+!note : Comment out the code (shortcut key): CTR+/
+!**********************Default***********************
+! ^PI == 4*ATANF(1)
+! ^RAD == 180/^PI
+! ^pol_input(1,1) == 0
+
+num ^data(11,1)
+buf mov b1
+buf imp data.dat
+
+^result == BUFFER_TO_ARRAY(1,^data,1,11,1,1,0)
+
+RDY S2 ^data(1,1)
+RDY S3 ^data(2,1)
+RDY S4 ^data(3,1)
+RDY S5 ^data(4,1)
+
+THI S1 400
+THI S2 ^data(5,1)
+THI S3 ^data(6,1)
+THI S4 ^data(7,1)
+pim     
+
+ADE S2 ^data(8,1)         
+ADE S3 ^data(9,1)
+ADE S4 ^data(10,1)
+ADE S5 ^data(11,1)

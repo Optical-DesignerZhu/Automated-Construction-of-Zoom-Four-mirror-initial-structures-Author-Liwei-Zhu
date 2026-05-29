@@ -1,0 +1,105 @@
+%% input off-axis fourMirror parameter to zemax
+function [ TheApplication ] = inputToZemax( instance,g)
+
+if ~exist('instance', 'var')
+    instance = 0;
+else
+    try
+        instance = int32(instance);
+    catch
+        instance = 0;
+        warning('Invalid parameter {instance}');
+    end
+end
+
+% Initialize the OpticStudio connection
+TheApplication = InitConnection(instance);
+TheSystem = TheApplication.PrimarySystem;
+TheLDE = TheSystem.LDE;
+TheSystemData = TheSystem.SystemData;
+
+%% Set surface data 
+TheLDE.GetSurfaceAt(3).Radius = g(1);
+TheLDE.GetSurfaceAt(6).Radius = g(2);
+TheLDE.GetSurfaceAt(9).Radius = g(3);
+TheLDE.GetSurfaceAt(12).Radius = g(4);
+
+TheLDE.GetSurfaceAt(1).Thickness = g(5);
+TheLDE.GetSurfaceAt(4).Thickness = g(6);
+TheLDE.GetSurfaceAt(7).Thickness = g(7);
+TheLDE.GetSurfaceAt(10).Thickness = g(8);
+TheLDE.GetSurfaceAt(13).Thickness = g(9);
+
+TheLDE.GetSurfaceAt(2).SurfaceData.TiltAbout_X = g(10);
+TheLDE.GetSurfaceAt(5).SurfaceData.TiltAbout_X = g(11);
+TheLDE.GetSurfaceAt(8).SurfaceData.TiltAbout_X = g(12);
+TheLDE.GetSurfaceAt(11).SurfaceData.TiltAbout_X = g(13);
+
+% TheLDE.GetSurfaceAt(3).Conic = g(12);
+% TheLDE.GetSurfaceAt(6).Conic = g(13);
+% TheLDE.GetSurfaceAt(9).Conic = g(14);
+% TheLDE.GetSurfaceAt(12).Conic = g(15);
+
+if isempty(TheApplication)
+    % failed to initialize a connection
+    TheApplication = 'Failed to connect to OpticStudio';
+else
+    import ZOSAPI.*;
+end
+end
+
+function app = InitConnection(instance)
+
+import System.Reflection.*;
+
+% Find the installed version of OpticStudio.
+zemaxData = winqueryreg('HKEY_CURRENT_USER', 'Software\Zemax', 'ZemaxRoot');
+NetHelper = strcat(zemaxData, '\ZOS-API\Libraries\ZOSAPI_NetHelper.dll');
+% Note -- uncomment the following line to use a custom NetHelper path
+% NetHelper = 'D:\ProgramFiles\Zemax\ZOS-API\Libraries\ZOSAPI_NetHelper.dll';
+% This is the path to OpticStudio
+NET.addAssembly(NetHelper);
+
+success = ZOSAPI_NetHelper.ZOSAPI_Initializer.Initialize();
+% Note -- uncomment the following line to use a custom initialization path
+% success = ZOSAPI_NetHelper.ZOSAPI_Initializer.Initialize('C:\Program Files\OpticStudio\');
+if success == 1
+    LogMessage(strcat('Found OpticStudio at: ', char(ZOSAPI_NetHelper.ZOSAPI_Initializer.GetZemaxDirectory())));
+else
+    app = [];
+    return;
+end
+
+% Now load the ZOS-API assemblies
+NET.addAssembly(AssemblyName('ZOSAPI_Interfaces'));
+NET.addAssembly(AssemblyName('ZOSAPI'));
+
+% Create the initial connection class
+TheConnection = ZOSAPI.ZOSAPI_Connection();
+
+% Attempt to create a Standalone connection
+
+% NOTE - if this fails with a message like 'Unable to load one or more of
+% the requested types', it is usually caused by try to connect to a 32-bit
+% version of OpticStudio from a 64-bit version of MATLAB (or vice-versa).
+% This is an issue with how MATLAB interfaces with .NET, and the only
+% current workaround is to use 32- or 64-bit versions of both applications.
+app = TheConnection.ConnectAsExtension(instance);
+if isempty(app)
+   HandleError('Failed to connect to OpticStudio!');
+end
+if ~app.IsValidLicenseForAPI
+	app.CloseApplication();
+    HandleError('License check failed!');
+    app = [];
+end
+end
+
+function LogMessage(msg)
+disp(msg);
+end
+
+function HandleError(error)
+ME = MException('zosapi:HandleError', error);
+throw(ME);
+end

@@ -1,0 +1,51 @@
+DIN "CUC"
+DDM M
+FVR NO
+SEE 0
+LEN NEW
+GBL NUM ^CV_BACKEND_STARTUP_SEQUENCE; ^CV_BACKEND_STARTUP_SEQUENCE == 1
+RES "E:\GraduationProject\version11\KKSDNA.len"
+in cv_macro:unvig
+VIE; CAN;
+VIE
+GO
+VIE
+GO
+RAI Y
+CRA Y
+CVI
+PIM Y
+VIE
+GO
+VIE
+GO
+in cv_macro:cvtpupil FNO
+VIE
+GO
+FNO Z1 4.999981315559
+VIE
+GO
+VIE
+GO
+VIE
+GO
+VIE
+GO
+VIE
+GO
+VIE
+GO
+VIE
+GO
+VIE
+GO
+PIM Y Z1..2
+VIE
+GO
+set vig
+VIE
+GO
+in cv_macro:unvig
+VIE
+GO
+EXI Y

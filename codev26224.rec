@@ -1,0 +1,28 @@
+DIN "CUC"
+DDM M
+FVR NO
+SEE 0
+LEN NEW
+GBL NUM ^CV_BACKEND_STARTUP_SEQUENCE; ^CV_BACKEND_STARTUP_SEQUENCE == 1
+RES "E:\GraduationProject\version11\KKSDNA.len"
+VIE; CAN;
+VIE
+GO
+VIE
+GO
+in cv_macro:unvig
+VIE
+GO
+run "D:\SoftWare\CodeV\macro\setvig.seq" 1e-07 0.1 100 NO YES ;GO
+VIE
+GO
+in cv_macro:unvig
+VIE
+GO
+WID YES
+VIE
+GO
+VIE
+GO
+WID NO
+EXI Y

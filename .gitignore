@@ -1,0 +1,14 @@
+# MATLAB autosave and local backups
+*.asv
+*.bak
+
+# Generated binaries and build outputs
+*.mexw64
+*.log
+codegen/
+
+# Experiment result folders
+AZFM_Results_*/
+
+# Local rendered snapshots
+view_*.png
