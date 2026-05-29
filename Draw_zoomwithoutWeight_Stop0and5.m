@@ -55,7 +55,7 @@
     plotParams.axis_tick_font_size_overview = 12;
     plotParams.axis_label_font_size_grid = 8;
     plotParams.axis_label_font_size_overview = 14;
-    plotParams.info_title_offset_y_stop_front = 0.9;
+    plotParams.info_title_offset_y_stop_front = 1;
     plotParams.info_title_offset_y_stop_rear  = 0.9;
     plotParams.info_title_font_weight = 'bold';
     plotParams.info_title_x_stop_front = 0.55;
