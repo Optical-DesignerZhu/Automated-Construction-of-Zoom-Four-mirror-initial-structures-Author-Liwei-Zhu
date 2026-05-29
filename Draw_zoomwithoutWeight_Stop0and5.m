@@ -55,9 +55,11 @@
     plotParams.axis_tick_font_size_overview = 12;
     plotParams.axis_label_font_size_grid = 8;
     plotParams.axis_label_font_size_overview = 14;
-    plotParams.info_title_offset_y = 0.9;  
+    plotParams.info_title_offset_y_stop_front = 0.9;
+    plotParams.info_title_offset_y_stop_rear  = 0.9;
     plotParams.info_title_font_weight = 'bold';
-    plotParams.info_title_x = 0.55;
+    plotParams.info_title_x_stop_front = 0.55;
+    plotParams.info_title_x_stop_rear  = 0.55;
     plotParams.export_resolution = 600;
     plotParams.export_open_figure = false;
     % =========================================================================
@@ -98,6 +100,8 @@
     group_titles = {'Top 16 Stop Front Solutions - 4x4 Grid', 'Top 16 Stop Rear Solutions - 4x4 Grid'};
     group_indices = {1:16, 17:32};
     group_tile_spacings = {plotParams.tile_spacing_stop_front, plotParams.tile_spacing_stop_rear};
+    group_title_offset_x = {plotParams.info_title_x_stop_front, plotParams.info_title_x_stop_rear};
+    group_title_offset_y = {plotParams.info_title_offset_y_stop_front, plotParams.info_title_offset_y_stop_rear};
     
     % Render both figure groups: 1. stop front, 2. stop rear
     for group_idx = 1:2
@@ -105,6 +109,9 @@
         current_name = group_names{group_idx};
         current_title = group_titles{group_idx};
         current_tile_spacing = group_tile_spacings{group_idx};
+        current_plotParams = plotParams;
+        current_plotParams.info_title_x = group_title_offset_x{group_idx};
+        current_plotParams.info_title_offset_y = group_title_offset_y{group_idx};
         
         fprintf('\n========================================================\n');
         fprintf('Rendering group %d: %s\n', group_idx, current_title);
@@ -164,7 +171,7 @@
             
             ax = nexttile(tile_obj, i);
             % Pass sys_label for the top annotation of each subplot
-            [~, ax, vol_3d_render, vol_merit_func, axis_bounds] = plot_3D_zoom_overlay_paper(g_opt_all, sysParam, plotParams, 'off', ax, sys_label);
+            [~, ax, vol_3d_render, vol_merit_func, axis_bounds] = plot_3D_zoom_overlay_paper(g_opt_all, sysParam, current_plotParams, 'off', ax, sys_label);
             ax_list(i) = ax;
             axis_bounds_all(i, :) = axis_bounds;
             
