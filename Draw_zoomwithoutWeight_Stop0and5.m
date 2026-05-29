@@ -52,15 +52,14 @@
     plotParams.tile_padding = 'compact';     
     plotParams.axis_tick_font_size_grid =10;
     plotParams.info_title_font_size = 10;    
-
-
     plotParams.axis_tick_font_size_overview = 12;
     plotParams.axis_label_font_size_grid = 8;
     plotParams.axis_label_font_size_overview = 14;
-
     plotParams.info_title_offset_y = 0.9;  
     plotParams.info_title_font_weight = 'bold';
     plotParams.info_title_x = 0.55;
+    plotParams.export_resolution = 600;
+    plotParams.export_open_figure = false;
     % =========================================================================
 
     % Update this path to the .mat file containing the 32-row MasterData table
@@ -81,6 +80,12 @@
         error('Imported data has fewer than 32 rows. Only %d rows were found.', total_configs);
     end
     
+    base_dir = fileparts(mat_filepath);
+    export_dir = fullfile(base_dir, 'Paper_Quality_3D_Renderings');
+    if ~exist(export_dir, 'dir')
+        mkdir(export_dir);
+    end
+
     fprintf('>> Data loaded. Extracting the best solutions for the first 16 stop-front cases and last 16 stop-rear cases...\n');
     
     scrn = get(0, 'ScreenSize');
@@ -105,8 +110,14 @@
         fprintf('Rendering group %d: %s\n', group_idx, current_title);
         fprintf('========================================================\n');
         
+        if plotParams.export_open_figure
+            fig_visibility = 'on';
+        else
+            fig_visibility = 'off';
+        end
+
         big_fig = figure('Name', current_title, 'Color', 'w', ...
-                         'Position', [pos_X, pos_Y, fig_size, fig_size], 'Visible', 'on');
+                         'Position', [pos_X, pos_Y, fig_size, fig_size], 'Visible', fig_visibility);
                          
         tile_obj = tiledlayout(big_fig, 4, 4, 'TileSpacing', current_tile_spacing, 'Padding', plotParams.tile_padding);
         
@@ -193,12 +204,16 @@
                 ylabel(ax_list(ii), '');
             end
         end
-        
-        
-        fprintf('\nGroup %d finished. Figure window is open for manual editing and saving.\n', group_idx);
+        img_name = sprintf('Top16_%s_BestSolutions_4x4_%dDPI.png', current_name, plotParams.export_resolution);
+        img_path = fullfile(export_dir, img_name);
+        exportgraphics(big_fig, img_path, 'Resolution', plotParams.export_resolution, 'BackgroundColor', 'w');
+        fprintf('\nGroup %d finished. Exported image:\n%s\n', group_idx, img_path);
+        if ~plotParams.export_open_figure
+            close(big_fig);
+        end
     end
     
-    fprintf('\nAll 2 grid figures have been generated.\n');
+    fprintf('\nAll 2 grid figures have been exported.\n');
 % =========================================================================
 % Publication-quality rendering engine
 % =========================================================================
